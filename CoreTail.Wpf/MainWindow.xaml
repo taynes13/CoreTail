@@ -1,0 +1,26 @@
+﻿<Window x:Class="CoreTail.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CoreTail.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="800" Height="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0">Lorem ipsum:</TextBlock>
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="_logContentListBox" ItemsSource="{Binding Path=LogContent}" DisplayMemberPath="."/>
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <TextBlock>Log size:</TextBlock>
+            <TextBlock x:Name="_logSizeTextBlock"/>
+        </StackPanel>
+    </Grid>
+</Window>
