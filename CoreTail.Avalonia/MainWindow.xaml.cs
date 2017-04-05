@@ -1,20 +1,12 @@
 ﻿using System.Collections.Specialized;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
-using CoreTail.Avalonia.Shared;
-using CoreTail.Shared;
 
 namespace CoreTail.Avalonia
 {
     public class MainWindow : Window
     {
         private ListBox _listBox;
-        private ScrollViewer _scrollViewer;
-        private TextBlock _logSizeTextBlock;
-
-        private Dispatcher _dispatcher;
-        private MainWindowViewModel _viewModel;
 
         public MainWindow()
         {
@@ -27,27 +19,23 @@ namespace CoreTail.Avalonia
             AvaloniaXamlLoader.Load(this);
 
             _listBox = this.FindControl<ListBox>("listBox");
-            _listBox.TemplateApplied += _listBox_TemplateApplied;
-            _logSizeTextBlock = this.FindControl<TextBlock>("logSizeTextBlock");
+            _listBox.DataContextChanged += _listBox_DataContextChanged;
 
-            _dispatcher = new Dispatcher();
-            _viewModel = new MainWindowViewModel(_dispatcher);
-            _viewModel.Initialize();
-
-            DataContext = _viewModel;
-            _viewModel.LogContent.CollectionChanged += LogContent_CollectionChanged;
-            _listBox.Items = _viewModel.LogContent;
+            // TODO: this is workaround, I don't know how set DataContext of a window externally
+            DataContext = App.MainWindowDataContext;
         }
 
-        private void LogContent_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void _listBox_DataContextChanged(object sender, System.EventArgs e)
         {
-            _logSizeTextBlock.Text = _viewModel.LogContent.Count.ToString();
+            // TODO: unsubscription missing
+            var listBoxItems = _listBox.Items as INotifyCollectionChanged;
+            if (listBoxItems != null)
+                listBoxItems.CollectionChanged += ListBoxItems_CollectionChanged;
+        }
+
+        private void ListBoxItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
             ScrollToBottom();
-        }
-
-        private void _listBox_TemplateApplied(object sender, TemplateAppliedEventArgs e)
-        {
-            _scrollViewer = e.NameScope.Find<ScrollViewer>("PART_ScrollViewer");
         }
 
         private void ScrollToBottom()

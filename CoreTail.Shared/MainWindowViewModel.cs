@@ -18,9 +18,11 @@ namespace CoreTail.Shared
         {
             _timer = new Timer(TimerExpired, 0, Timeout.Infinite, Timeout.Infinite);
             _dispatcher = dispatcher;
+
+            Initialize();
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             _loremIpsum.Add("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porta nec nisl sed ornare. Nulla velit mauris, lacinia sed velit vitae, porta tristique lorem. Ut purus neque, facilisis eu metus sit amet, fringilla euismod augue. Proin id ultrices nulla, laoreet semper magna. Suspendisse nec tristique velit, et euismod ex. Aenean pulvinar sem quis leo tincidunt sodales. Etiam tincidunt tincidunt ante quis pellentesque. Integer feugiat turpis ac quam rhoncus auctor. Proin ut diam congue, sagittis sapien mattis, congue sem. Aliquam eget est sapien. Nam ac finibus nunc, eget efficitur quam.");
             _loremIpsum.Add("Maecenas pulvinar feugiat nibh, at ultrices sem pulvinar id. Proin mollis neque at quam feugiat ullamcorper. Vivamus interdum ligula sed massa blandit ultricies. Aenean vitae diam quam. Integer rutrum luctus libero, ac dapibus tortor pretium ut. Integer viverra pellentesque orci, sit amet mollis leo ullamcorper sed. Proin vel efficitur justo, non semper eros. Proin quis porttitor diam, sed malesuada nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Morbi viverra quam at turpis sodales, ac lacinia velit feugiat. Duis ex turpis, suscipit at turpis vitae, fringilla faucibus dolor. Morbi eget nunc ac neque faucibus feugiat nec in nibh.");

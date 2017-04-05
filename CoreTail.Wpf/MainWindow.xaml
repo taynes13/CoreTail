@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CoreTail.Wpf"
         xmlns:behaviors="clr-namespace:CoreTail.Wpf.Behaviors"
         mc:Ignorable="d"
-        Title="MainWindow" Width="800" Height="500">
+        Title="CoreTail Prototype (WPF)" Width="800" Height="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

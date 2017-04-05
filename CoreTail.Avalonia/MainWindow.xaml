@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500">
+﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500" Title="CoreTail Prototype (Avalonia)">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -10,7 +10,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0">Lorem ipsum:</TextBlock>
-        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox">
+        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}">
             <ListBox.Template>
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -44,7 +44,7 @@
     </ItemsControl>-->
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock>Log size:</TextBlock>
-            <TextBlock Name="logSizeTextBlock"/>
+            <TextBlock Text="{Binding LogContent.Count}"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -3,16 +3,28 @@ using Avalonia.Controls;
 using Avalonia.Diagnostics;
 using Avalonia.Logging.Serilog;
 using Avalonia.Markup.Xaml;
+using CoreTail.Avalonia.Shared;
+using CoreTail.Shared;
 using Serilog;
 
 namespace CoreTail.Avalonia
 {
     internal class App : Application
     {
+        // TODO: this is workaround, I don't know how set DataContext of a window externally
+        internal static object MainWindowDataContext { get; private set; }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
             base.Initialize();
+
+            MainWindowDataContext = CreateViewModel();
+        }
+
+        private static MainWindowViewModel CreateViewModel()
+        {
+            return new MainWindowViewModel(new Dispatcher());
         }
 
         private static void Main(string[] args)
