@@ -9,14 +9,10 @@ namespace CoreTail.Shared
     {
         private readonly List<string> _loremIpsum = new List<string>();
         private readonly Random _random = new Random();
-        private readonly ObservableCollection<string> _logContent = new ObservableCollection<string>();
         private readonly Timer _timer;
         private readonly IDispatcher _dispatcher;
 
-        public ObservableCollection<string> LogContent
-        {
-            get { return _logContent; }
-        }
+        public ObservableCollection<string> LogContent { get; } = new ObservableCollection<string>();
 
         public MainWindowViewModel(IDispatcher dispatcher)
         {
@@ -183,10 +179,7 @@ namespace CoreTail.Shared
 
         private void TimerExpired(object state)
         {
-            _dispatcher.InvokeAsync(() =>
-            {
-                AddLogItem();
-            });
+            _dispatcher.InvokeAsync(AddLogItem);
 
             //var logItem = DateTime.UtcNow.ToString("yyyy-MM-dd hh:mm:ss.fff") + " - " + _loremIpsum[_random.Next(0, _loremIpsum.Count)];
             //_text.Append(Environment.NewLine + logItem);

@@ -1,9 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Specialized;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
 using CoreTail.Avalonia.Shared;
 using CoreTail.Shared;
-using System.Collections.Specialized;
 
 namespace CoreTail.Avalonia
 {
@@ -18,7 +18,7 @@ namespace CoreTail.Avalonia
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             App.AttachDevTools(this);
         }
 
@@ -34,7 +34,7 @@ namespace CoreTail.Avalonia
             _viewModel = new MainWindowViewModel(_dispatcher);
             _viewModel.Initialize();
 
-            this.DataContext = _viewModel;
+            DataContext = _viewModel;
             _viewModel.LogContent.CollectionChanged += LogContent_CollectionChanged;
             _listBox.Items = _viewModel.LogContent;
         }
@@ -51,7 +51,7 @@ namespace CoreTail.Avalonia
 
         private void ScrollToBottom()
         {
-            if (_listBox == null || _listBox.Scroll == null)
+            if (_listBox?.Scroll == null)
                 return;
 
             _listBox.Scroll.Offset = new global::Avalonia.Vector(_listBox.Scroll.Offset.X, _listBox.Scroll.Extent.Height);

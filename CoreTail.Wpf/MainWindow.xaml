@@ -17,10 +17,10 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0">Lorem ipsum:</TextBlock>
-        <ListBox Grid.Row="1" Grid.Column="0" x:Name="_logContentListBox" ItemsSource="{Binding Path=LogContent}" DisplayMemberPath="."/>
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="LogContentListBox" ItemsSource="{Binding Path=LogContent}" DisplayMemberPath="."/>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock>Log size:</TextBlock>
-            <TextBlock x:Name="_logSizeTextBlock"/>
+            <TextBlock x:Name="LogSizeTextBlock"/>
         </StackPanel>
     </Grid>
 </Window>
