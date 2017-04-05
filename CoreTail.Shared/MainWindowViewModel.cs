@@ -183,7 +183,7 @@ namespace CoreTail.Shared
 
         private void TimerExpired(object state)
         {
-            _dispatcher.Invoke(() =>
+            _dispatcher.InvokeAsync(() =>
             {
                 AddLogItem();
             });

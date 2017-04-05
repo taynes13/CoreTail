@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CoreTail.Shared;
 
 namespace CoreTail.Avalonia.Shared
 {
-    internal class Dispatcher : CoreTail.Shared.IDispatcher
+    internal class Dispatcher : IDispatcher
     {
-        public void Invoke(Action callback)
+        public void InvokeAsync(Action callback)
         {
-            global::Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                callback();
-            });
+            global::Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(callback);
         }
     }
 }
