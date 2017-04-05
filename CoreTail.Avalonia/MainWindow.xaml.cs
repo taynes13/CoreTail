@@ -41,6 +41,7 @@ namespace CoreTail.Avalonia
 
         private void LogContent_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            _logSizeTextBlock.Text = _viewModel.LogContent.Count.ToString();
             ScrollToBottom();
         }
 
