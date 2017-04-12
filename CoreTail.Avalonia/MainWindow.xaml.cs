@@ -20,9 +20,6 @@ namespace CoreTail.Avalonia
 
             _listBox = this.FindControl<ListBox>("listBox");
             _listBox.DataContextChanged += _listBox_DataContextChanged;
-
-            // TODO: this is workaround, I don't know how set DataContext of a window externally
-            DataContext = App.MainWindowDataContext;
         }
 
         private void _listBox_DataContextChanged(object sender, System.EventArgs e)

@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Diagnostics;
 using Avalonia.Logging.Serilog;
@@ -11,30 +12,31 @@ namespace CoreTail.Avalonia
 {
     internal class App : Application
     {
-        // TODO: this is workaround, I don't know how set DataContext of a window externally
-        internal static object MainWindowDataContext { get; private set; }
-
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
             base.Initialize();
-
-            MainWindowDataContext = CreateViewModel();
-        }
-
-        private static object CreateViewModel()
-        {
-            //return new FileReaderViewModel();
-            return new RandomGeneratorViewModel(new Dispatcher());
         }
 
         private static void Main(string[] args)
         {
             InitializeLogging();
-            AppBuilder.Configure<App>()
+
+            var appBuilder = AppBuilder.Configure<App>()
                 .UseWin32()
                 .UseDirect2D1()
-                .Start<MainWindow>();
+                .SetupWithoutStarting();
+
+            var viewModel = CreateViewModel(args);
+
+            var mainWindow = new MainWindow { DataContext = viewModel };
+
+            var disposableViewModel = viewModel as IDisposable;
+            if (disposableViewModel != null)
+                mainWindow.Closed += (o, args2) => disposableViewModel.Dispose(); // invoked, but message loop is not drained before process end, probably Avalonia bug!
+
+            mainWindow.Show();
+            appBuilder.Instance.Run(mainWindow);
         }
 
         public static void AttachDevTools(Window window)
@@ -52,6 +54,13 @@ namespace CoreTail.Avalonia
                 .WriteTo.Trace(outputTemplate: "{Area}: {Message}")
                 .CreateLogger());
 #endif
+        }
+
+        private static object CreateViewModel(string[] args)
+        {
+            return args.Length == 0
+                ? (object) new RandomGeneratorViewModel(new Dispatcher())
+                : new FileReaderViewModel(args[0]);
         }
     }
 }

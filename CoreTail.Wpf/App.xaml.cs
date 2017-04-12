@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using CoreTail.Shared;
 using CoreTail.Wpf.Shared;
 
@@ -7,17 +8,23 @@ namespace CoreTail.Wpf
     public partial class App
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
-        {
-            var viewModel = CreateViewModel();
+        {            
+            var viewModel = CreateViewModel(e.Args);
 
             var mainWindow = new MainWindow { DataContext = viewModel };
+
+            var disposableViewModel = viewModel as IDisposable;
+            if (disposableViewModel != null)
+                mainWindow.Closed += (o, args) => disposableViewModel.Dispose();
+
             mainWindow.Show();
         }
 
-        private object CreateViewModel()
+        private object CreateViewModel(string[] args)
         {
-            //return new FileReaderViewModel();
-            return new RandomGeneratorViewModel(new Dispatcher(Dispatcher));
+            return args.Length == 0
+                ? (object)new RandomGeneratorViewModel(new Dispatcher(Dispatcher))
+                : new FileReaderViewModel(args[0]);
         }
     }
 }
