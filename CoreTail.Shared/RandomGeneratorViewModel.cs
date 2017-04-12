@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace CoreTail.Shared
 {
-    public class MainWindowViewModel
+    public class RandomGeneratorViewModel
     {
         private readonly List<string> _loremIpsum = new List<string>();
         private readonly Random _random = new Random();
@@ -14,7 +14,7 @@ namespace CoreTail.Shared
 
         public ObservableCollection<string> LogContent { get; } = new ObservableCollection<string>();
 
-        public MainWindowViewModel(IDispatcher dispatcher)
+        public RandomGeneratorViewModel(IDispatcher dispatcher)
         {
             _timer = new Timer(TimerExpired, 0, Timeout.Infinite, Timeout.Infinite);
             _dispatcher = dispatcher;

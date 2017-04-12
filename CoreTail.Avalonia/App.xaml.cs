@@ -22,9 +22,10 @@ namespace CoreTail.Avalonia
             MainWindowDataContext = CreateViewModel();
         }
 
-        private static MainWindowViewModel CreateViewModel()
+        private static object CreateViewModel()
         {
-            return new MainWindowViewModel(new Dispatcher());
+            //return new FileReaderViewModel();
+            return new RandomGeneratorViewModel(new Dispatcher());
         }
 
         private static void Main(string[] args)

@@ -14,9 +14,10 @@ namespace CoreTail.Wpf
             mainWindow.Show();
         }
 
-        private MainWindowViewModel CreateViewModel()
+        private object CreateViewModel()
         {
-            return new MainWindowViewModel(new Dispatcher(Dispatcher));
+            //return new FileReaderViewModel();
+            return new RandomGeneratorViewModel(new Dispatcher(Dispatcher));
         }
     }
 }
