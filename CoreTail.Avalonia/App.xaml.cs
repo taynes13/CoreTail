@@ -58,9 +58,11 @@ namespace CoreTail.Avalonia
 
         private static object CreateViewModel(string[] args)
         {
-            return args.Length == 0
-                ? (object) new RandomGeneratorViewModel(new Dispatcher())
-                : new FileReaderViewModel(args[0]);
+            return new ViewModelFactory(
+                    new Dispatcher(),
+                    new OpenFileDialogService()
+                )
+                .CreateMainWindowViewModel(args);
         }
     }
 }

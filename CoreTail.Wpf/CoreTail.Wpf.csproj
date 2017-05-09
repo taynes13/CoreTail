@@ -110,6 +110,7 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\ListBoxBehavior.cs" />
     <Compile Include="Shared\Dispatcher.cs" />
+    <Compile Include="Shared\OpenFileDialogService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

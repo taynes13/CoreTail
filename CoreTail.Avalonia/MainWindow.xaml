@@ -1,6 +1,7 @@
-﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500" Title="CoreTail Prototype (Avalonia)">
+﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500" Title="CoreTail (Avalonia)">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -9,8 +10,17 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0">Lorem ipsum:</TextBlock>
-        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}">
+        <Menu Grid.Row="0" Grid.Column="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Command="{Binding FileOpenCommand}" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
+
+        <TextBlock Grid.Row="1" Grid.Column="0">Lorem ipsum:</TextBlock>
+      
+        <ListBox Grid.Row="2" Grid.Column="0" Name="listBox" Items="{Binding LogContent}">
             <ListBox.Template>
                 <ControlTemplate>
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
@@ -21,28 +31,8 @@
                 </ControlTemplate>
             </ListBox.Template>
         </ListBox>
-        <!--<ItemsControl Grid.Row="1" Grid.Column="0" Name="itemsControl">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <TextBlock Text="{Binding Path=.}" />
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-      <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-          <VirtualizingStackPanel />
-        </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.Template>
-        <ControlTemplate>
-          <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-            <ScrollViewer Name="scrollViewer" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-              <ItemsPresenter Items="{TemplateBinding Items}" ItemsPanel="{TemplateBinding ItemsPanel}" ItemTemplate="{TemplateBinding ItemTemplate}" Margin="{TemplateBinding Padding}" MemberSelector="{TemplateBinding MemberSelector}" VirtualizationMode="Simple"/>
-            </ScrollViewer>
-          </Border>
-        </ControlTemplate>
-      </ItemsControl.Template>
-    </ItemsControl>-->
-        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+      
+        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
             <TextBlock>Log size:</TextBlock>
             <TextBlock Text="{Binding LogContent.Count}"/>
         </StackPanel>

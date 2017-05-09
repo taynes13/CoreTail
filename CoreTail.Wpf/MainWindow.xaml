@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:CoreTail.Wpf"
         xmlns:behaviors="clr-namespace:CoreTail.Wpf.Behaviors"
         mc:Ignorable="d"
-        Title="CoreTail Prototype (WPF)" Width="800" Height="500">
+        Title="CoreTail (WPF)" Width="800" Height="500">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -17,10 +18,20 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0">Lorem ipsum:</TextBlock>
-        <ListBox Grid.Row="1" Grid.Column="0" x:Name="LogContentListBox" ItemsSource="{Binding LogContent}" DisplayMemberPath="."
+        <Menu Grid.Row="0" Grid.Column="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Command="{Binding FileOpenCommand}" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
+
+        <TextBlock Grid.Row="1" Grid.Column="0">Lorem ipsum:</TextBlock>
+
+        <ListBox Grid.Row="2" Grid.Column="0" x:Name="LogContentListBox" ItemsSource="{Binding LogContent}" DisplayMemberPath="."
                  behaviors:ListBoxBehavior.AutoScroll="True"/>
-        <TextBlock Grid.Row="2" Grid.Column="0">
+
+        <TextBlock Grid.Row="3" Grid.Column="0">
             <TextBlock>Log size:</TextBlock>
             <TextBlock Text="{Binding LogContent.Count}"/>
         </TextBlock>

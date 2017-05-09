@@ -8,7 +8,7 @@ namespace CoreTail.Wpf
     public partial class App
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
-        {            
+        {
             var viewModel = CreateViewModel(e.Args);
 
             var mainWindow = new MainWindow { DataContext = viewModel };
@@ -22,9 +22,11 @@ namespace CoreTail.Wpf
 
         private object CreateViewModel(string[] args)
         {
-            return args.Length == 0
-                ? (object)new RandomGeneratorViewModel(new Dispatcher(Dispatcher))
-                : new FileReaderViewModel(args[0]);
+            return new ViewModelFactory(
+                    new Dispatcher(Dispatcher),
+                    new OpenFileDialogService()
+                )
+                .CreateMainWindowViewModel(args);
         }
     }
 }
