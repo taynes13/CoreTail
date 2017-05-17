@@ -1,10 +1,9 @@
-﻿using Avalonia.Controls;
-using CoreTail.Shared;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using CoreTail.Shared;
+using FileDialogFilter = CoreTail.Shared.FileDialogFilter;
 
 namespace CoreTail.Avalonia.Shared
 {
@@ -12,7 +11,7 @@ namespace CoreTail.Avalonia.Shared
     {
         public Task<string[]> ShowAsync(OpenFileDialogSettings settings, object ownerWindow = null)
         {
-            return new OpenFileDialog()
+            return new OpenFileDialog
                 {
                     AllowMultiple = settings.AllowMultiple,
                     Filters = ToAvaloniaFilters(settings.Filters),
@@ -23,13 +22,13 @@ namespace CoreTail.Avalonia.Shared
                 .ShowAsync(ownerWindow as Window);
         }
 
-        private List<global::Avalonia.Controls.FileDialogFilter> ToAvaloniaFilters(List<CoreTail.Shared.FileDialogFilter> filters)
+        private static List<global::Avalonia.Controls.FileDialogFilter> ToAvaloniaFilters(IReadOnlyCollection<FileDialogFilter> filters)
         {
             if (filters == null)
                 return new List<global::Avalonia.Controls.FileDialogFilter>();
 
             return filters
-                .Select(i => new global::Avalonia.Controls.FileDialogFilter()
+                .Select(i => new global::Avalonia.Controls.FileDialogFilter
                 {
                     Extensions = i.Extensions,
                     Name = i.Name

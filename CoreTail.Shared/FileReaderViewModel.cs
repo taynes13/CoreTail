@@ -11,34 +11,32 @@ namespace CoreTail.Shared
 { 
     public class FileReaderViewModel : IDisposable
     {
-        private IOpenFileDialogService _openFileDialogService;
+        private readonly IOpenFileDialogService _openFileDialogService;
+
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
         public ObservableCollection<string> LogContent { get; } = new ObservableCollection<string>();
 
-        public FileReaderViewModel(IOpenFileDialogService openFileDialogService, string fileName)
+        public ICommand FileOpenCommand { get; }
+
+        public FileReaderViewModel(IOpenFileDialogService openFileDialogService, string fileName = null)
         {
             _openFileDialogService = Guard.ArgumentNotNull(openFileDialogService, nameof(openFileDialogService));
-
-            FileOpenCommand = new DelegateCommand(async (arg) => await FileOpenCommandExecute());
+            
+            FileOpenCommand = new DelegateCommand(async () => await ExecuteFileOpenCommand());
 
             if (!string.IsNullOrEmpty(fileName))
-                WatchFileAsync(fileName);
+                OpenAndWatchFileAsync(fileName);
         }
 
-        public ICommand FileOpenCommand
+        private async Task ExecuteFileOpenCommand()
         {
-            get; private set;
-        }
-
-        private async Task FileOpenCommandExecute()
-        {
-            var dialogSettings = new OpenFileDialogSettings()
+            var dialogSettings = new OpenFileDialogSettings
             {
                 AllowMultiple = false,
-                Filters = new List<FileDialogFilter>()
+                Filters = new List<FileDialogFilter>
                 {
-                    new FileDialogFilter() { Name = "All Files", Extensions = new List<string>() { "*" } }
+                    new FileDialogFilter { Name = "All Files", Extensions = new List<string> { "*" } }
                 }
             };
 
@@ -46,10 +44,10 @@ namespace CoreTail.Shared
             var fileName = fileNames?.FirstOrDefault();
 
             if (!string.IsNullOrEmpty(fileName))
-                WatchFileAsync(fileName);
+                OpenAndWatchFileAsync(fileName);
         }
 
-        private async void WatchFileAsync(string fileName)
+        private async void OpenAndWatchFileAsync(string fileName)
         {
             if (!File.Exists(fileName))
                 throw new FileNotFoundException("File does not exist", fileName);

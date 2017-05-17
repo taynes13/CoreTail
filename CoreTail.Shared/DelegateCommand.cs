@@ -1,21 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreTail.Shared
 {
     public class DelegateCommand : System.Windows.Input.ICommand
     {
-        private readonly Predicate<object> _canExecute;
+        private readonly Func<object, bool> _canExecute;
         private readonly Action<object> _execute;
 
         public event EventHandler CanExecuteChanged;
 
-        public DelegateCommand(Action<object> execute)
-            : this(execute, null)
-        { }
+        public DelegateCommand(Action execute, Func<bool> canExecute = null)
+        {
+            _execute = _ => execute();
 
-        public DelegateCommand(Action<object> execute, Predicate<object> canExecute)
+            if (canExecute != null)
+                _canExecute = _ => canExecute();
+        }
+
+        public DelegateCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
@@ -23,12 +25,7 @@ namespace CoreTail.Shared
 
         public virtual bool CanExecute(object parameter)
         {
-            if (_canExecute == null)
-            {
-                return true;
-            }
-
-            return _canExecute(parameter);
+            return _canExecute == null || _canExecute(parameter);
         }
 
         public virtual void Execute(object parameter)

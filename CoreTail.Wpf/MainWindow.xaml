@@ -10,7 +10,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -26,12 +25,10 @@
             </MenuItem>
         </Menu>
 
-        <TextBlock Grid.Row="1" Grid.Column="0">Lorem ipsum:</TextBlock>
-
-        <ListBox Grid.Row="2" Grid.Column="0" x:Name="LogContentListBox" ItemsSource="{Binding LogContent}" DisplayMemberPath="."
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="LogContentListBox" ItemsSource="{Binding LogContent}" DisplayMemberPath="."
                  behaviors:ListBoxBehavior.AutoScroll="True"/>
 
-        <TextBlock Grid.Row="3" Grid.Column="0">
+        <TextBlock Grid.Row="2" Grid.Column="0">
             <TextBlock>Log size:</TextBlock>
             <TextBlock Text="{Binding LogContent.Count}"/>
         </TextBlock>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CoreTail.Shared
+﻿namespace CoreTail.Shared
 {
     public class ViewModelFactory
     {
@@ -17,9 +13,9 @@ namespace CoreTail.Shared
 
         public object CreateMainWindowViewModel(string[] args)
         {
-            return args.Length == 0
-                ? new FileReaderViewModel(_openFileDialogService, null)
-                : new FileReaderViewModel(_openFileDialogService, args[0]);
+            return new FileReaderViewModel(
+                _openFileDialogService, 
+                args.Length == 0 ? null : args[0]);
         }
     }
 }
