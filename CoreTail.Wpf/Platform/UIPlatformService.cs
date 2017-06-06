@@ -3,13 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
-using CoreTail.Shared;
+using CoreTail.Shared.Other;
+using CoreTail.Shared.Platform;
 
-namespace CoreTail.Wpf.Shared
+namespace CoreTail.Wpf.Platform
 {
-    internal class OpenFileDialogService : IOpenFileDialogService
+    internal class UIPlatformService : IUIPlatformService<FileInfo>
     {
-        public Task<string[]> ShowAsync(OpenFileDialogSettings settings, object ownerWindow = null)
+        public Task<FileInfo[]> ShowOpenFileDialogAsync(OpenFileDialogSettings settings, object ownerWindow = null)
         {
             var dialog = new OpenFileDialog
             {
@@ -20,11 +21,12 @@ namespace CoreTail.Wpf.Shared
                 Filter = ToOpenFileDialogFilter(settings.Filters)
             };
 
-            if (dialog.ShowDialog(ownerWindow as Window) != true)
-                return Task.FromResult<string[]>(null);
-
-            var fileNames = dialog.FileNames;
-            return Task.FromResult(fileNames);
+            return Task.FromResult(
+                dialog.ShowDialog(ownerWindow as Window) != true 
+                ? null 
+                : dialog.FileNames
+                    .Select(fileName => new FileInfo(fileName))
+                    .ToArray());
         }
 
         private static string ToOpenFileDialogFilter(IReadOnlyCollection<FileDialogFilter> filters)

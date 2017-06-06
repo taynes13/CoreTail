@@ -24,10 +24,11 @@ namespace CoreTail.Avalonia
 
         private void _listBox_DataContextChanged(object sender, System.EventArgs e)
         {
-            // TODO: unsubscription missing
-            var listBoxItems = _listBox.Items as INotifyCollectionChanged;
-            if (listBoxItems != null)
+            if (_listBox.Items is INotifyCollectionChanged listBoxItems)
+            {
+                listBoxItems.CollectionChanged -= ListBoxItems_CollectionChanged;
                 listBoxItems.CollectionChanged += ListBoxItems_CollectionChanged;
+            }
         }
 
         private void ListBoxItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -35,11 +36,10 @@ namespace CoreTail.Avalonia
             ScrollToBottom();
         }
 
+        // TODO: throttle
         private void ScrollToBottom()
         {
-            if (_listBox?.Scroll == null)
-                return;
-
+            if (_listBox?.Scroll == null) return;
             _listBox.Scroll.Offset = new global::Avalonia.Vector(_listBox.Scroll.Offset.X, _listBox.Scroll.Extent.Height);
         }
     }

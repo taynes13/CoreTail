@@ -1,21 +1,30 @@
-﻿namespace CoreTail.Shared
+﻿using CoreTail.Shared.Other;
+using CoreTail.Shared.Platform;
+
+namespace CoreTail.Shared
 {
-    public class ViewModelFactory
+    // TODO: required?
+    public class ViewModelFactory<TFileInfo> where TFileInfo : class, IFileInfo
     {
         private readonly IDispatcher _dispatcher;
-        private readonly IOpenFileDialogService _openFileDialogService;
+        private readonly IUIPlatformService<TFileInfo> _uiPlatformService;
+        private readonly ISystemPlatformService<TFileInfo> _systemPlatformService;
 
-        public ViewModelFactory(IDispatcher dispatcher, IOpenFileDialogService openFileDialogService)
+        public ViewModelFactory(
+            IDispatcher dispatcher, 
+            IUIPlatformService<TFileInfo> uiPlatformService, 
+            ISystemPlatformService<TFileInfo> systemPlatformService)
         {
             _dispatcher = Guard.ArgumentNotNull(dispatcher, nameof(dispatcher));
-            _openFileDialogService = Guard.ArgumentNotNull(openFileDialogService, nameof(openFileDialogService));
+            _uiPlatformService = Guard.ArgumentNotNull(uiPlatformService, nameof(uiPlatformService));
+            _systemPlatformService = Guard.ArgumentNotNull(systemPlatformService, nameof(systemPlatformService));
         }
 
-        public object CreateMainWindowViewModel(string[] args)
+        public FileReaderViewModel<TFileInfo> CreateMainWindowViewModel()
         {
-            return new FileReaderViewModel(
-                _openFileDialogService, 
-                args.Length == 0 ? null : args[0]);
+            return new FileReaderViewModel<TFileInfo>(
+                _uiPlatformService, 
+                _systemPlatformService);
         }
     }
 }

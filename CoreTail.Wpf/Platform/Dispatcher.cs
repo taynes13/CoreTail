@@ -1,7 +1,7 @@
 ﻿using System;
-using CoreTail.Shared;
+using CoreTail.Shared.Platform;
 
-namespace CoreTail.Wpf.Shared
+namespace CoreTail.Wpf.Platform
 {
     internal class Dispatcher : IDispatcher
     {

@@ -1,32 +1,35 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using CoreTail.Shared;
-using CoreTail.Wpf.Shared;
+using CoreTail.Shared.Platform;
+using CoreTail.Wpf.Platform;
 
 namespace CoreTail.Wpf
 {
     public partial class App
     {
-        private void App_OnStartup(object sender, StartupEventArgs e)
+        private async void App_OnStartup(object sender, StartupEventArgs e)
         {
-            var viewModel = CreateViewModel(e.Args);
+            var viewModel = CreateViewModel();
 
             var mainWindow = new MainWindow { DataContext = viewModel };
 
-            var disposableViewModel = viewModel as IDisposable;
-            if (disposableViewModel != null)
-                mainWindow.Closed += (o, args) => disposableViewModel.Dispose();
+            mainWindow.Closed += (o, args) => viewModel.Dispose();
 
             mainWindow.Show();
+
+            var fileInfo = e.Args.Length == 0 ? null : new FileInfo(e.Args[0]);
+
+            if (fileInfo != null)
+                await viewModel.OpenAndWatchFileAsync(fileInfo);
         }
 
-        private object CreateViewModel(string[] args)
+        private FileReaderViewModel<FileInfo> CreateViewModel()
         {
-            return new ViewModelFactory(
+            return  new ViewModelFactory<FileInfo>(
                     new Dispatcher(Dispatcher),
-                    new OpenFileDialogService()
-                )
-                .CreateMainWindowViewModel(args);
+                    new UIPlatformService(),
+                    new SystemPlatformService())
+                .CreateMainWindowViewModel();
         }
     }
 }

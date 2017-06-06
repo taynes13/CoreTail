@@ -2,14 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using CoreTail.Shared;
-using FileDialogFilter = CoreTail.Shared.FileDialogFilter;
+using CoreTail.Shared.Other;
+using CoreTail.Shared.Platform;
+using FileDialogFilter = CoreTail.Shared.Other.FileDialogFilter;
 
-namespace CoreTail.Avalonia.Shared
+namespace CoreTail.Avalonia.Platform
 {
-    internal class OpenFileDialogService : IOpenFileDialogService
+    internal class UIPlatformService : IUIPlatformService<FileInfo>
     {
-        public Task<string[]> ShowAsync(OpenFileDialogSettings settings, object ownerWindow = null)
+        public Task<FileInfo[]> ShowOpenFileDialogAsync(OpenFileDialogSettings settings, object ownerWindow = null)
         {
             return new OpenFileDialog
                 {
@@ -19,7 +20,11 @@ namespace CoreTail.Avalonia.Shared
                     InitialFileName = settings.InitialFileName,
                     Title = settings.Title
                 }
-                .ShowAsync(ownerWindow as Window);
+                .ShowAsync(ownerWindow as Window)
+                .ContinueWith(t => 
+                    t.Result
+                        .Select(fileName => new FileInfo(fileName))
+                        .ToArray());
         }
 
         private static List<global::Avalonia.Controls.FileDialogFilter> ToAvaloniaFilters(IReadOnlyCollection<FileDialogFilter> filters)

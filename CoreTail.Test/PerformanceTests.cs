@@ -9,6 +9,7 @@ using NLipsum.Core;
 
 namespace CoreTail.Test
 {
+    // TODO: move to console project?
     [TestClass]
     public class PerformanceTests
     {
@@ -22,7 +23,9 @@ namespace CoreTail.Test
 #endif      
         private const string WpfAppName = "CoreTail.Wpf";
         private const string AvaloniaAppName = "CoreTail.Avalonia";
-       
+        private const string UwpAppPackageFamilyAndId = "5a3cae1b-7b4c-4ed2-be89-40911aa7f6ae_n6fhnfby9ccnm!App";
+        private const string UwpAppName = "CoreTail.Uwp";
+
         private string _testFileName;
         private CancellationTokenSource _cts;
         private Task _appendTestFileTask;
@@ -37,7 +40,7 @@ namespace CoreTail.Test
         [TestInitialize]
         public void Initialize()
         {
-            _testFileName = Path.GetTempFileName();
+            _testFileName = Path.GetTempFileName();            
 
             _cts = new CancellationTokenSource();
 
@@ -94,22 +97,69 @@ namespace CoreTail.Test
 
             avaloniaProcess.WaitForExit();
         }
+        
+        //[TestMethod]
+        public void OpenAppendedFileUwp()
+        {            
+            var uwpProcess = StartUwpApp();
+
+            Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
+                .ContinueWith(t => uwpProcess.Kill()); // not sure how to cleanly close UWP app
+
+            uwpProcess.WaitForExit();
+        }
+
+        private static Process StartUwpApp()
+        {
+            try
+            {
+                // TODO: file must be opened manually
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = "shell:appsFolder\\" + UwpAppPackageFamilyAndId,
+                        UseShellExecute = true
+                    });
+            }
+            catch (Exception ex)
+            {
+                // TODO: command line package creation and deployment would be nicer - I know but it is complicated
+                throw new Exception("Starting UWP app failed - make sure it is installed (or executed from VS at least once)",
+                    ex);
+            }
+
+            Process uwpProcess = null;
+
+            for (var i = 0; i < 10 && uwpProcess == null; i++)
+            {
+                Thread.Sleep(1000);
+                uwpProcess = Process.GetProcessesByName(UwpAppName).FirstOrDefault();
+            }
+
+            if (uwpProcess == null)
+                throw new Exception("Starting UWP app failed");
+
+            return uwpProcess;
+        }
 
         [TestMethod]
         public void OpenAppendedFileAllPlatforms()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
             var avaloniaProcess = Process.Start(GetExecutablePath(AvaloniaAppName), $"\"{_testFileName}\"");
+            var uwpProcess = StartUwpApp();
 
             Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
                 .ContinueWith(t =>
                 {
                     wpfProcess.CloseMainWindow();
                     avaloniaProcess.CloseMainWindow();
+                    uwpProcess.Kill();
                 });
 
             wpfProcess.WaitForExit();
-            avaloniaProcess.WaitForExit();           
+            avaloniaProcess.WaitForExit();
+            uwpProcess.WaitForExit();
         }
     }
 }

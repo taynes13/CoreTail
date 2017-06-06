@@ -1,7 +1,7 @@
 ﻿using System;
-using CoreTail.Shared;
+using CoreTail.Shared.Platform;
 
-namespace CoreTail.Avalonia.Shared
+namespace CoreTail.Avalonia.Platform
 {
     internal class Dispatcher : IDispatcher
     {

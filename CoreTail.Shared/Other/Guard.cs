@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreTail.Shared
+namespace CoreTail.Shared.Other
 {
     internal class Guard
     {

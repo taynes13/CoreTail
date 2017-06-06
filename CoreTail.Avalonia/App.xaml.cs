@@ -1,12 +1,12 @@
-﻿using System;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Diagnostics;
 using Avalonia.Logging.Serilog;
 using Avalonia.Markup.Xaml;
-using CoreTail.Avalonia.Shared;
-using CoreTail.Shared;
+using CoreTail.Avalonia.Platform;
 using Serilog;
+using CoreTail.Shared;
+using CoreTail.Shared.Platform;
 
 namespace CoreTail.Avalonia
 {
@@ -27,15 +27,19 @@ namespace CoreTail.Avalonia
                 .UseDirect2D1()
                 .SetupWithoutStarting();
 
-            var viewModel = CreateViewModel(args);
+            var viewModel = CreateViewModel();
 
             var mainWindow = new MainWindow { DataContext = viewModel };
 
-            var disposableViewModel = viewModel as IDisposable;
-            if (disposableViewModel != null)
-                mainWindow.Closed += (o, args2) => disposableViewModel.Dispose(); // invoked, but message loop is not drained before process end, probably Avalonia bug!
+            mainWindow.Closed += (o, args2) => viewModel.Dispose(); // invoked, but message loop is not drained before process end, probably Avalonia bug!
 
             mainWindow.Show();
+
+            var fileInfo = args.Length == 0 ? null : new FileInfo(args[0]);
+
+            if (fileInfo != null)
+                viewModel.OpenAndWatchFileAsync(fileInfo);
+
             appBuilder.Instance.Run(mainWindow);
         }
 
@@ -56,13 +60,13 @@ namespace CoreTail.Avalonia
 #endif
         }
 
-        private static object CreateViewModel(string[] args)
+        private static FileReaderViewModel<FileInfo> CreateViewModel()
         {
-            return new ViewModelFactory(
+            return new ViewModelFactory<FileInfo>(
                     new Dispatcher(),
-                    new OpenFileDialogService()
-                )
-                .CreateMainWindowViewModel(args);
+                    new UIPlatformService(),
+                    new SystemPlatformService())
+                .CreateMainWindowViewModel();
         }
     }
 }

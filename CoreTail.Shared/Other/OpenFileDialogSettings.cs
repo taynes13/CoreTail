@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CoreTail.Shared
+namespace CoreTail.Shared.Other
 {
     public class OpenFileDialogSettings
     {

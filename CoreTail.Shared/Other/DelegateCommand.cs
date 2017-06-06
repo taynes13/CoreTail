@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CoreTail.Shared
+namespace CoreTail.Shared.Other
 {
     public class DelegateCommand : System.Windows.Input.ICommand
     {

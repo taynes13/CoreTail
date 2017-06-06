@@ -108,9 +108,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Behaviors\ListBoxBehavior.cs" />
-    <Compile Include="Shared\Dispatcher.cs" />
-    <Compile Include="Shared\OpenFileDialogService.cs" />
+    <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Platform\Dispatcher.cs" />
+    <Compile Include="Platform\UIPlatformService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
