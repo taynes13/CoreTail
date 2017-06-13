@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CoreTail.Shared.Other;
 using CoreTail.Shared.Platform;
+using CoreTail.Shared.Collections;
 
 namespace CoreTail.Shared
 {
@@ -18,7 +19,7 @@ namespace CoreTail.Shared
 
         private CancellationTokenSource _cts;
 
-        public ObservableCollection<string> LogContent { get; } = new ObservableCollection<string>();
+        public BatchObservableCollection<string> LogContent { get; } = new BatchObservableCollection<string>();
 
         public ICommand FileOpenCommand { get; }
 
@@ -46,8 +47,14 @@ namespace CoreTail.Shared
             WatchFileInternal(stream, cts);
         }
 
+        public void Dispose()
+        {
+            _cts?.Cancel();
+        }
+
         private async Task WatchFileInternal(Stream stream, CancellationTokenSource cts)
         {
+            var lines = new List<string>();
             using (var fileStream = stream)
             using (var fileReader = new StreamReader(fileStream))
             {
@@ -55,12 +62,27 @@ namespace CoreTail.Shared
                 {
                     var line = await fileReader.ReadLineAsync();
 
-                    if (line == null) // EOF
+                    if (IsEof(line))
+                    {
+                        if (lines != null)
+                        {
+                            LogContent.AddRange(lines);
+                            lines.Clear();
+                        }
+
                         await Task.Delay(100, cts.Token); // TODO: acceptable delay?
+                    }
                     else
-                        LogContent.Add(line);
+                    {
+                        lines.Add(line);
+                    }
                 }
             }
+        }
+
+        private static bool IsEof(string line)
+        {
+            return line == null;
         }
 
         private async Task ExecuteFileOpenCommand()
@@ -79,11 +101,6 @@ namespace CoreTail.Shared
 
             if (fileInfo != null)
                 await OpenAndWatchFileAsync(fileInfo);
-        }
-
-        public void Dispose()
-        {
-            _cts?.Cancel();
         }
     }
 }
