@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500" Title="CoreTail (Avalonia)">
+﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500" Title="CoreTail (Avalonia)" Icon="resm:CoreTail.Avalonia.CoreTail.ico?assembly=CoreTail.Avalonia">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
