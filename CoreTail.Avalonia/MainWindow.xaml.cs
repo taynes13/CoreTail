@@ -48,7 +48,8 @@ namespace CoreTail.Avalonia
 
         private void ScrollToBottom()
         {
-            _listBox.ScrollIntoView(_listBox.Items.Cast<string>().LastOrDefault());
+            if (_listBox?.Scroll == null) return;
+            _listBox.Scroll.Offset = new global::Avalonia.Vector(_listBox.Scroll.Offset.X, _listBox.Scroll.Extent.Height);
         }
     }
 }
