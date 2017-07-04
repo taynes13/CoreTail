@@ -1,4 +1,6 @@
 ﻿using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -24,10 +26,18 @@ namespace CoreTail.Avalonia
 
         private void _listBox_DataContextChanged(object sender, System.EventArgs e)
         {
-            if (_listBox.Items is INotifyCollectionChanged listBoxItems)
+            if (_listBox.Items is INotifyPropertyChanged listBoxItemsNotifyPropertyChanged)
             {
-                listBoxItems.CollectionChanged -= ListBoxItems_CollectionChanged;
-                listBoxItems.CollectionChanged += ListBoxItems_CollectionChanged;
+                listBoxItemsNotifyPropertyChanged.PropertyChanged -= ListBoxItemsNotifyPropertyChanged_PropertyChanged;
+                listBoxItemsNotifyPropertyChanged.PropertyChanged += ListBoxItemsNotifyPropertyChanged_PropertyChanged;
+            }
+        }
+
+        private void ListBoxItemsNotifyPropertyChanged_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Count")
+            {
+                ScrollToBottom();
             }
         }
 
@@ -36,11 +46,9 @@ namespace CoreTail.Avalonia
             ScrollToBottom();
         }
 
-        // TODO: throttle
         private void ScrollToBottom()
         {
-            if (_listBox?.Scroll == null) return;
-            _listBox.Scroll.Offset = new global::Avalonia.Vector(_listBox.Scroll.Offset.X, _listBox.Scroll.Extent.Height);
+            _listBox.ScrollIntoView(_listBox.Items.Cast<string>().LastOrDefault());
         }
     }
 }

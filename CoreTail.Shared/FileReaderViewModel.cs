@@ -64,7 +64,7 @@ namespace CoreTail.Shared
 
                     if (IsEof(line))
                     {
-                        if (lines != null)
+                        if (lines != null && lines.Count > 0)
                         {
                             LogContent.AddRange(lines);
                             lines.Clear();

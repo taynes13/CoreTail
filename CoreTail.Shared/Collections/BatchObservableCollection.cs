@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Text;
 
 namespace CoreTail.Shared.Collections
@@ -14,10 +15,14 @@ namespace CoreTail.Shared.Collections
             Guard.ArgumentNotNull(collection, nameof(collection));
             CheckReentrancy();
 
+            var startIndex = Count;
+
             foreach (var item in collection)
                 Items.Add(item);
 
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
+            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
         }
     }
 }
