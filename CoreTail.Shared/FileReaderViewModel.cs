@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -55,6 +54,7 @@ namespace CoreTail.Shared
         private async Task WatchFileInternal(Stream stream, CancellationTokenSource cts)
         {
             var lines = new List<string>();
+
             using (var fileStream = stream)
             using (var fileReader = new StreamReader(fileStream))
             {
@@ -64,7 +64,7 @@ namespace CoreTail.Shared
 
                     if (IsEof(line))
                     {
-                        if (lines != null && lines.Count > 0)
+                        if (lines.Count > 0)
                         {
                             LogContent.AddRange(lines);
                             lines.Clear();
@@ -74,6 +74,7 @@ namespace CoreTail.Shared
                     }
                     else
                     {
+                        // TODO: what if never reaches end of files (producing is faster than consuming?)
                         lines.Add(line);
                     }
                 }

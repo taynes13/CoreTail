@@ -1,6 +1,4 @@
-﻿using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -36,14 +34,7 @@ namespace CoreTail.Avalonia
         private void ListBoxItemsNotifyPropertyChanged_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Count")
-            {
                 ScrollToBottom();
-            }
-        }
-
-        private void ListBoxItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ScrollToBottom();
         }
 
         private void ScrollToBottom()

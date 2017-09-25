@@ -6,10 +6,7 @@ namespace CoreTail.Shared.Other
     {
         public static T ArgumentNotNull<T>(T argumentValue, string argumentName = null) where T : class
         {
-            if (argumentValue == null)
-                throw new ArgumentNullException(argumentName ?? nameof(argumentValue));
-
-            return argumentValue;
+            return argumentValue ?? throw new ArgumentNullException(argumentName ?? nameof(argumentValue));
         }
     }
 }

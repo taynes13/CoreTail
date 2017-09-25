@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Windows.Storage.Pickers;
 using CoreTail.Shared.Other;
 using CoreTail.Shared.Platform;
-using FileInfo = CoreTail.Uwp.Platform.FileInfo;
 
 namespace CoreTail.Uwp.Platform
 {

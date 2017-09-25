@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Windows.Input;
 
 namespace CoreTail.Shared.Other
 {
-    public class DelegateCommand : System.Windows.Input.ICommand
+    public class DelegateCommand : ICommand
     {
         private readonly Func<object, bool> _canExecute;
         private readonly Action<object> _execute;

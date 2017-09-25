@@ -114,7 +114,7 @@ namespace CoreTail.Uwp
             e.ShareOperation.ReportError("Error opening file(s)");
         }
 
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private static void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
