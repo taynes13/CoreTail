@@ -76,7 +76,7 @@ namespace CoreTail.Test
                 File.Delete(_testFileName);
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void OpenAppendedFileWPF()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
