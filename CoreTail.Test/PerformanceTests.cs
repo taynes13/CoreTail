@@ -76,7 +76,7 @@ namespace CoreTail.Test
                 File.Delete(_testFileName);
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void OpenAppendedFileWPF()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
@@ -142,7 +142,7 @@ namespace CoreTail.Test
             return uwpProcess;
         }
 
-        [TestMethod]
+        //[TestMethod]
         public void OpenAppendedFileAllPlatforms()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
