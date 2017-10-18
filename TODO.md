@@ -3,6 +3,12 @@
 ## PHASE 1 - MVP 
 (opening 1 file)
 
+* multiplatform
+  * try Avalonia .net core sample
+    * linux
+  * try .net core launcher
+    * windows
+    * linux
 * watching file:
   * when appending file in notepad, it does not work properly (duplicates empty lines) - unit test?
   * data virtualization?
@@ -15,8 +21,9 @@
   * 2nd share into the same instance is very slow (explorer.exe hangs for several seconds)
 * Avalonia specific
   * drag'n'drop open once it is supported by platform
-* housekeeping
-  * build server
+* build server
+* deployment
+  * https://docs.microsoft.com/en-us/windows/uwp/packaging/installing-uwp-apps-web
 
 ## PHASE 2 - matching BareTail
 (tabs, filters, search, ...)
