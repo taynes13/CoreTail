@@ -110,10 +110,5 @@
       <Name>CoreTail.Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="..\Resources\CoreTail.ico">
-      <Link>CoreTail.ico</Link>
-    </Resource>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

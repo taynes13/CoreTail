@@ -22,7 +22,8 @@ namespace CoreTail.Test
         private const string Configuration = "Release";
 #endif      
         private const string WpfAppName = "CoreTail.Wpf";
-        private const string AvaloniaAppName = "CoreTail.Avalonia";
+        private const string AvaloniaNetAppName = "CoreTail.Avalonia.Net";
+        private const string AvaloniaNetCoreAppName = "CoreTail.Avalonia.NetCore";
         private const string UwpAppPackageFamilyAndId = "5a3cae1b-7b4c-4ed2-be89-40911aa7f6ae_n6fhnfby9ccnm!App";
         private const string UwpAppName = "CoreTail.Uwp";
 
@@ -30,11 +31,14 @@ namespace CoreTail.Test
         private CancellationTokenSource _cts;
         private Task _appendTestFileTask;
 
-        private static string GetExecutablePath(string appName)
+        private static string GetExecutablePath(string appName, bool isNetCore = false)
         {
+            var extension = isNetCore ? "dll" : "exe";
+            var subfolder = isNetCore ? "netcoreapp2.0/" : string.Empty;
+
             return Path.Combine(
                 Environment.CurrentDirectory,
-                $"../../../{appName}/bin/{Configuration}/{appName}.exe");
+                $"../../../{appName}/bin/{Configuration}/{subfolder}{appName}.{extension}");
         }
 
         [TestInitialize]
@@ -88,16 +92,29 @@ namespace CoreTail.Test
         }
 
         //[TestMethod]
-        public void OpenAppendedFileAvalonia()
+        public void OpenAppendedFileAvaloniaNet()
         {
-            var avaloniaProcess = Process.Start(GetExecutablePath(AvaloniaAppName), $"\"{_testFileName}\"");
+            var avaloniaNetProcess = Process.Start(GetExecutablePath(AvaloniaNetAppName), $"\"{_testFileName}\"");
 
             Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
-                .ContinueWith(t => avaloniaProcess.CloseMainWindow());
-
-            avaloniaProcess.WaitForExit();
+                .ContinueWith(t => avaloniaNetProcess.CloseMainWindow());
+            
+            avaloniaNetProcess.WaitForExit();
         }
-        
+
+        //[TestMethod]
+        public void OpenAppendedFileAvaloniaNetCore()
+        {
+            var avaloniaNetCoreProcess = Process.Start(
+                @"dotnet", 
+                $"exec \"{GetExecutablePath(AvaloniaNetCoreAppName, true)}\" \"{_testFileName}\"");
+
+            Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
+                .ContinueWith(t => avaloniaNetCoreProcess.CloseMainWindow());
+
+            avaloniaNetCoreProcess.WaitForExit();
+        }
+
         //[TestMethod]
         public void OpenAppendedFileUwp()
         {            
@@ -142,23 +159,28 @@ namespace CoreTail.Test
             return uwpProcess;
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void OpenAppendedFileAllPlatforms()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
-            var avaloniaProcess = Process.Start(GetExecutablePath(AvaloniaAppName), $"\"{_testFileName}\"");
+            var avaloniaNetProcess = Process.Start(GetExecutablePath(AvaloniaNetAppName), $"\"{_testFileName}\"");
+            var avaloniaNetCoreProcess = Process.Start(
+                @"dotnet",
+                $"exec \"{GetExecutablePath(AvaloniaNetCoreAppName, true)}\" \"{_testFileName}\"");
             var uwpProcess = StartUwpApp();
 
             Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
                 .ContinueWith(t =>
                 {
                     wpfProcess.CloseMainWindow();
-                    avaloniaProcess.CloseMainWindow();
+                    avaloniaNetProcess.CloseMainWindow();
+                    avaloniaNetCoreProcess.CloseMainWindow();
                     uwpProcess.Kill();
                 });
 
             wpfProcess.WaitForExit();
-            avaloniaProcess.WaitForExit();
+            avaloniaNetProcess.WaitForExit();
+            avaloniaNetCoreProcess.WaitForExit();
             uwpProcess.WaitForExit();
         }
     }

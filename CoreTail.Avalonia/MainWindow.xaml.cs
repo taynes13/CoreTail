@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
@@ -11,7 +12,7 @@ namespace CoreTail.Avalonia
         public MainWindow()
         {
             InitializeComponent();
-            App.AttachDevTools(this);
+            this.AttachDevTools();
         }
 
         private void InitializeComponent()
