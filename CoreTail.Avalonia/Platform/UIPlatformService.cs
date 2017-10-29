@@ -22,9 +22,7 @@ namespace CoreTail.Avalonia.Platform
                 }
                 .ShowAsync(ownerWindow as Window)
                 .ContinueWith(t => 
-                    t.Result
-                        .Select(fileName => new FileInfo(fileName))
-                        .ToArray());
+                    t.Result?.Select(fileName => new FileInfo(fileName)).ToArray());
         }
 
         private static List<global::Avalonia.Controls.FileDialogFilter> ToAvaloniaFilters(IReadOnlyCollection<FileDialogFilter> filters)
