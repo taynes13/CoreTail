@@ -38,82 +38,123 @@
     <ApplicationIcon>..\Resources\CoreTail.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Avalonia.Animation, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Animation.dll</HintPath>
+    <Reference Include="Avalonia.Animation, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Animation.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Base, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Base.dll</HintPath>
+    <Reference Include="Avalonia.Base, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Controls, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Controls.dll</HintPath>
+    <Reference Include="Avalonia.Controls, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.DesignerSupport, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.DesignerSupport.dll</HintPath>
+    <Reference Include="Avalonia.DesignerSupport, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.DesignerSupport.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Diagnostics, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Diagnostics.dll</HintPath>
+    <Reference Include="Avalonia.Diagnostics, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Diagnostics.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.DotNetFrameworkRuntime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.DotNetFrameworkRuntime.dll</HintPath>
+    <Reference Include="Avalonia.Direct2D1, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.Direct2D1.0.6.1\lib\netstandard2.0\Avalonia.Direct2D1.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Input, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Input.dll</HintPath>
+    <Reference Include="Avalonia.DotNetFrameworkRuntime, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.DotNetFrameworkRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Interactivity, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Interactivity.dll</HintPath>
+    <Reference Include="Avalonia.Gtk3, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.Gtk3.0.6.1\lib\netstandard2.0\Avalonia.Gtk3.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Layout, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Layout.dll</HintPath>
+    <Reference Include="Avalonia.Input, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Input.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Logging.Serilog, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Logging.Serilog.dll</HintPath>
+    <Reference Include="Avalonia.Interactivity, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Interactivity.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Markup, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Markup.dll</HintPath>
+    <Reference Include="Avalonia.Layout, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Layout.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Markup.Xaml, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Markup.Xaml.dll</HintPath>
+    <Reference Include="Avalonia.Logging.Serilog, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Logging.Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.ReactiveUI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.ReactiveUI.dll</HintPath>
+    <Reference Include="Avalonia.Markup, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Markup.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Skia.Desktop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.Skia.Desktop.0.5.1\lib\net45\Avalonia.Skia.Desktop.dll</HintPath>
+    <Reference Include="Avalonia.Markup.Xaml, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Markup.Xaml.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Styling, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Styling.dll</HintPath>
+    <Reference Include="Avalonia.MonoMac, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.MonoMac.0.6.1\lib\netstandard2.0\Avalonia.MonoMac.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Themes.Default, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Themes.Default.dll</HintPath>
+    <Reference Include="Avalonia.Remote.Protocol, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.Remote.Protocol.0.6.1\lib\netstandard2.0\Avalonia.Remote.Protocol.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Visuals, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.0.5.1\lib\net45\Avalonia.Visuals.dll</HintPath>
+    <Reference Include="Avalonia.Skia, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.Skia.0.6.1\lib\netstandard2.0\Avalonia.Skia.dll</HintPath>
     </Reference>
-    <Reference Include="Avalonia.Win32, Version=0.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Avalonia.Win32.0.5.1\lib\net45\Avalonia.Win32.dll</HintPath>
+    <Reference Include="Avalonia.Styling, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Styling.dll</HintPath>
+    </Reference>
+    <Reference Include="Avalonia.Themes.Default, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Themes.Default.dll</HintPath>
+    </Reference>
+    <Reference Include="Avalonia.Visuals, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.0.6.1\lib\net45\Avalonia.Visuals.dll</HintPath>
+    </Reference>
+    <Reference Include="Avalonia.Win32, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Avalonia.Win32.0.6.1\lib\net45\Avalonia.Win32.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MonoMac, Version=0.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoMac.NetStandard.0.0.4\lib\net461\MonoMac.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
+      <HintPath>..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Debug, Version=1.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Debug.1.0.0\lib\netstandard1.0\Serilog.Sinks.Debug.dll</HintPath>
     </Reference>
     <Reference Include="Serilog.Sinks.Trace, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.Sinks.Trace.2.1.0\lib\net45\Serilog.Sinks.Trace.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
     <Reference Include="SkiaSharp, Version=1.57.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\SkiaSharp.1.57.1\lib\net45\SkiaSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Splat, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Splat.2.0.0\lib\Net45\Splat.dll</HintPath>
-    </Reference>
-    <Reference Include="Sprache, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sprache.2.1.0\lib\net40\Sprache.dll</HintPath>
+    <Reference Include="Sprache, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.1.2\lib\net45\Sprache.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.NonGeneric, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.NonGeneric.4.3.0\lib\net46\System.Collections.NonGeneric.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.TypeConverter, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.TypeConverter.4.3.0\lib\net462\System.ComponentModel.TypeConverter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.UnmanagedMemoryStream, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.UnmanagedMemoryStream.4.3.0\lib\net46\System.IO.UnmanagedMemoryStream.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Core.3.1.1\lib\net46\System.Reactive.Core.dll</HintPath>
@@ -130,10 +171,35 @@
     <Reference Include="System.Reactive.Windows.Threading, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Reactive.Windows.Threading.3.1.1\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net47\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.1\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.XmlDocument, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.XmlDocument.4.3.0\lib\net46\System.Xml.XmlDocument.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
