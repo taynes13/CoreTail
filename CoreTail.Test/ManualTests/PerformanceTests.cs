@@ -4,14 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NLipsum.Core;
 
-namespace CoreTail.Test
+namespace CoreTail.Test.ManualTests
 {
-    // TODO: move to console project?
-    [TestClass]
-    public class PerformanceTests
+    public class PerformanceTests : IDisposable
     {
         private const int TestDurationInSeconds = 60;
         private const int DelayBetweenLinesInMilliseconds = 0;
@@ -20,7 +17,8 @@ namespace CoreTail.Test
         private const string Configuration = "Debug";
 #else
         private const string Configuration = "Release";
-#endif      
+#endif
+
         private const string WpfAppName = "CoreTail.Wpf";
         private const string AvaloniaNetAppName = "CoreTail.Avalonia.Net";
         private const string AvaloniaNetCoreAppName = "CoreTail.Avalonia.NetCore";
@@ -30,6 +28,9 @@ namespace CoreTail.Test
         private string _testFileName;
         private CancellationTokenSource _cts;
         private Task _appendTestFileTask;
+
+        public PerformanceTests() => Initialize();
+        public void Dispose() => Cleanup();
 
         private static string GetExecutablePath(string appName, bool isNetCore = false)
         {
@@ -41,8 +42,7 @@ namespace CoreTail.Test
                 $"../../../{appName}/bin/{Configuration}/{subfolder}{appName}.{extension}");
         }
 
-        [TestInitialize]
-        public void Initialize()
+        private void Initialize()
         {
             _testFileName = Path.GetTempFileName();            
 
@@ -70,8 +70,7 @@ namespace CoreTail.Test
             }
         }
 
-        [TestCleanup]
-        public void Cleanup()
+        private void Cleanup()
         {
             _cts.Cancel();
             _appendTestFileTask.Wait();
@@ -80,7 +79,6 @@ namespace CoreTail.Test
                 File.Delete(_testFileName);
         }
 
-        //[TestMethod]
         public void OpenAppendedFileWPF()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
@@ -91,7 +89,6 @@ namespace CoreTail.Test
             wpfProcess.WaitForExit();
         }
 
-        //[TestMethod]
         public void OpenAppendedFileAvaloniaNet()
         {
             var avaloniaNetProcess = Process.Start(GetExecutablePath(AvaloniaNetAppName), $"\"{_testFileName}\"");
@@ -102,7 +99,6 @@ namespace CoreTail.Test
             avaloniaNetProcess.WaitForExit();
         }
 
-        //[TestMethod]
         public void OpenAppendedFileAvaloniaNetCore()
         {
             var avaloniaNetCoreProcess = Process.Start(
@@ -115,7 +111,6 @@ namespace CoreTail.Test
             avaloniaNetCoreProcess.WaitForExit();
         }
 
-        //[TestMethod]
         public void OpenAppendedFileUwp()
         {            
             var uwpProcess = StartUwpApp();
@@ -159,7 +154,6 @@ namespace CoreTail.Test
             return uwpProcess;
         }
 
-        [TestMethod]
         public void OpenAppendedFileAllPlatforms()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
