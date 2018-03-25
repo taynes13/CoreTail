@@ -18,17 +18,7 @@
             </MenuItem>
         </Menu>
       
-        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}">
-            <ListBox.Template>
-                <ControlTemplate>
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer Name="PART_ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <ItemsPresenter Items="{TemplateBinding Items}" ItemsPanel="{TemplateBinding ItemsPanel}" ItemTemplate="{TemplateBinding ItemTemplate}" Margin="{TemplateBinding Padding}" MemberSelector="{TemplateBinding MemberSelector}" VirtualizationMode="{TemplateBinding VirtualizationMode}"/>
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </ListBox.Template>
-        </ListBox>
+        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}"/>
       
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Log size:</TextBlock>
