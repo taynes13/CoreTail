@@ -70,7 +70,7 @@ namespace CoreTail.Shared
                             lines.Clear();
                         }
 
-                        await Task.Delay(100, cts.Token); // TODO: acceptable delay?
+                        await Task.Delay(100); // TODO: acceptable delay?
                     }
                     else
                     {
