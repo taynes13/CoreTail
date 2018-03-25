@@ -18,7 +18,14 @@
             </MenuItem>
         </Menu>
       
-        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}"/>
+        <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <!-- Height must be set, because empty lines would not be rendered. -->
+                    <TextBlock Text="{Binding}" Height="20"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
       
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Log size:</TextBlock>
