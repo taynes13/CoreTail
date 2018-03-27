@@ -43,13 +43,11 @@ namespace CoreTail.Shared
             var stream = await _systemPlatformService.OpenFileAsStream(fileInfo);
             
             // reading of file is not awaited deliberately (only opening of file is awaited)
+            // TODO: handle exceptions properly
             WatchFileInternal(stream, cts);
         }
 
-        public void Dispose()
-        {
-            _cts?.Cancel();
-        }
+        public void Dispose() => _cts?.Cancel();
 
         private async Task WatchFileInternal(Stream stream, CancellationTokenSource cts)
         {
@@ -58,6 +56,9 @@ namespace CoreTail.Shared
             using (var fileStream = stream)
             using (var fileReader = new StreamReader(fileStream))
             {
+                var lastLineHadMissingNewLine = false;
+                var lastByteReadBuffer = new byte[1];
+
                 while (!cts.IsCancellationRequested)
                 {
                     var line = await fileReader.ReadLineAsync();
@@ -70,10 +71,26 @@ namespace CoreTail.Shared
                             lines.Clear();
                         }
 
+                        // TODO: really not possible without delay?
                         await Task.Delay(100); // TODO: acceptable delay?
                     }
                     else
                     {
+                        if (line == string.Empty && lastLineHadMissingNewLine)
+                        {
+                            lastLineHadMissingNewLine = false;
+                            continue;
+                        }
+
+                        // TODO: measure performance cost
+                        // TODO: optimize by reducing seek (only when EoF?)
+                        fileReader.BaseStream.Seek(-1, SeekOrigin.Current);
+
+                        lastLineHadMissingNewLine = 
+                            fileReader.BaseStream.Read(lastByteReadBuffer, 0, 1) == 1 &&
+                            lastByteReadBuffer[0] != '\n' && 
+                            lastByteReadBuffer[0] != '\r';
+
                         // TODO: what if never reaches end of files (producing is faster than consuming?)
                         lines.Add(line);
                     }
@@ -81,10 +98,7 @@ namespace CoreTail.Shared
             }
         }
 
-        private static bool IsEof(string line)
-        {
-            return line == null;
-        }
+        private static bool IsEof(string line) => line == null;
 
         private async Task ExecuteFileOpenCommand()
         {

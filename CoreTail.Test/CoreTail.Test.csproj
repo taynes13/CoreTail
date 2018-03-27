@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Moq">
+      <Version>4.8.2</Version>
+    </PackageReference>
     <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
     <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
     <PackageReference Include="NLipsum" Version="1.1.0" />
@@ -47,10 +50,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileReaderViewModelTests.cs" />
+    <Compile Include="Helpers\ObservableCollectionExtensions.cs" />
     <Compile Include="ManualTests\PerformanceTests.cs" />
+    <Compile Include="Helpers\ProducerConsumerStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CoreTail.Shared\CoreTail.Shared.csproj">
+      <Project>{56C1BAB3-BAC8-424A-A85B-556A62A5D988}</Project>
+      <Name>CoreTail.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
