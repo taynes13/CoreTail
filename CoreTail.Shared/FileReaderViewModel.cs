@@ -49,6 +49,7 @@ namespace CoreTail.Shared
 
         public void Dispose() => _cts?.Cancel();
 
+        // TODO: rewrite
         private async Task WatchFileInternal(Stream stream, CancellationTokenSource cts)
         {
             var lines = new List<string>();
@@ -76,23 +77,43 @@ namespace CoreTail.Shared
                     }
                     else
                     {
-                        if (line == string.Empty && lastLineHadMissingNewLine)
+                        if (!lastLineHadMissingNewLine)
                         {
-                            lastLineHadMissingNewLine = false;
-                            continue;
+                            // TODO: what if never reaches end of files (producing is faster than consuming?)
+                            lines.Add(line);
+                        }
+                        else if (line != string.Empty)
+                        {
+                            var lastLine = lines.LastOrDefault();
+                            if (lastLine != null)
+                            {
+                                lines.RemoveAt(lines.Count - 1);
+                                lines.Add(lastLine + line);
+                            }
+                            else
+                            {
+                                lastLine = LogContent.LastOrDefault();
+                                if (lastLine != null)
+                                {
+                                    LogContent.RemoveAt(LogContent.Count - 1);
+                                    LogContent.Add(lastLine + line);
+                                }
+                            }
                         }
 
-                        // TODO: measure performance cost
-                        // TODO: optimize by reducing seek (only when EoF?)
-                        fileReader.BaseStream.Seek(-1, SeekOrigin.Current);
+                        if (fileReader.BaseStream.Position > 0 && line != string.Empty)
+                        {
+                            // TODO: measure performance cost
+                            // TODO: optimize by reducing seek (only when EoF?)
+                            fileReader.BaseStream.Seek(-1, SeekOrigin.Current);
 
-                        lastLineHadMissingNewLine = 
-                            fileReader.BaseStream.Read(lastByteReadBuffer, 0, 1) == 1 &&
-                            lastByteReadBuffer[0] != '\n' && 
-                            lastByteReadBuffer[0] != '\r';
-
-                        // TODO: what if never reaches end of files (producing is faster than consuming?)
-                        lines.Add(line);
+                            lastLineHadMissingNewLine =
+                                fileReader.BaseStream.Read(lastByteReadBuffer, 0, 1) == 1 &&
+                                lastByteReadBuffer[0] != '\n' &&
+                                lastByteReadBuffer[0] != '\r';
+                        }
+                        else
+                            lastLineHadMissingNewLine = false;
                     }
                 }
             }
