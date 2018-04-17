@@ -14,6 +14,12 @@ namespace CoreTail.Test.Helpers
         {
             var tcs = new TaskCompletionSource<bool>();
 
+            if (predicate(collection))
+            {
+                tcs.SetResult(true);
+                return;
+            }
+
             collection.CollectionChanged += (sender, e) =>
             {
                 if (predicate(collection))
