@@ -18,7 +18,7 @@ namespace CoreTail.Avalonia
 
         private void InitializeComponent()
         {
-            AvaloniaXamlLoaderPortableXaml.Load(this);
+            AvaloniaXamlLoader.Load(this);
 
             _listBox = this.FindControl<ListBox>("listBox");
             _listBox.PropertyChanged += _listBox_PropertyChanged;

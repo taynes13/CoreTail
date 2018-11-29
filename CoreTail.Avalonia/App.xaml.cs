@@ -1,5 +1,5 @@
 ﻿using Avalonia;
-using Avalonia.Input;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using CoreTail.Avalonia.Platform;
 using CoreTail.Shared;
@@ -15,13 +15,12 @@ namespace CoreTail.Avalonia
             AvaloniaXamlLoader.Load(this);
         }
 
-        public static ICloseable InitializeAndGetMainWindow(string[] args)
+        public static Window InitializeAndGetMainWindow(string[] args)
         {
             var viewModel = CreateViewModel();
 
             var mainWindow = new MainWindow { DataContext = viewModel };
             mainWindow.Closed += (o, args2) => viewModel.Dispose(); // invoked, but message loop is not drained before process end, probably Avalonia bug!
-            mainWindow.Show();
 
             var fileInfo = args.Length == 0 ? null : new FileInfo(args[0]);
 
