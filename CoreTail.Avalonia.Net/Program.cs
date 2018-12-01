@@ -1,12 +1,14 @@
 ﻿using Avalonia;
 using Avalonia.Logging.Serilog;
 using Serilog;
+using System;
 
 namespace CoreTail.Avalonia.Net
 {
-    static class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        [STAThread]
+        public static void Main(string[] args)
         {
             InitializeLogging();
 

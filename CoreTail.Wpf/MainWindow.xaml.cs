@@ -43,9 +43,7 @@ namespace CoreTail.Wpf
 
             async Task SetFileDragOver(string filePath)
             {
-                e.Effects = filePath != null 
-                    ? DragDropEffects.Copy
-                    : DragDropEffects.None;
+                e.Effects = filePath != null ? DragDropEffects.Copy : DragDropEffects.None;
             }
 
             await ProcessFile(e, SetFileDragOver);
@@ -64,9 +62,7 @@ namespace CoreTail.Wpf
             await ProcessFile(e, OpenFile);
         }
        
-        private static async Task ProcessFile(
-            DragEventArgs e, 
-            Func<string, Task> fileAction)
+        private static async Task ProcessFile(DragEventArgs e, Func<string, Task> fileAction)
         {
             string filePath = null;
             

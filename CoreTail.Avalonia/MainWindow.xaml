@@ -1,4 +1,6 @@
-﻿<Window xmlns="https://github.com/avaloniaui" Width="800" Height="500" Title="CoreTail (Avalonia)" Icon="resm:CoreTail.Avalonia.CoreTail.ico?assembly=CoreTail.Avalonia">
+﻿<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="CoreTail.Avalonia.MainWindow" Title="CoreTail (Avalonia)" Width="800" Height="500"
+        Icon="resm:CoreTail.Avalonia.CoreTail.ico?assembly=CoreTail.Avalonia" DragDrop.AllowDrop="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -11,13 +13,13 @@
 
         <Menu Grid.Row="0" Grid.Column="0">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Command="{Binding FileOpenCommand}" />
+                <MenuItem Header="_Open..." Command="{Binding FileOpenCommand}"/>
                 <!--TODO:-->
                 <!--<Separator />
                 <MenuItem Header="_Exit" />-->
             </MenuItem>
         </Menu>
-      
+
         <ListBox Grid.Row="1" Grid.Column="0" Name="listBox" Items="{Binding LogContent}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -26,7 +28,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-      
+
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <TextBlock Margin="0,0,5,0">Log size:</TextBlock>
             <TextBlock Text="{Binding LogContent.Count}"/>
