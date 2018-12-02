@@ -1,17 +1,18 @@
-﻿using System;
+﻿using CoreTail.Shared.Collections;
+using CoreTail.Shared.Other;
+using CoreTail.Shared.Platform;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CoreTail.Shared.Other;
-using CoreTail.Shared.Platform;
-using CoreTail.Shared.Collections;
 
 namespace CoreTail.Shared
 {
-    public class FileReaderViewModel<TFileInfo> : IDisposable where TFileInfo : class, IFileInfo 
+    public class FileReaderViewModel<TFileInfo> : IDisposable where TFileInfo : class, IFileInfo
     {
         private readonly ISystemPlatformService<TFileInfo> _systemPlatformService;
         private readonly IUIPlatformService<TFileInfo> _uiPlatformService;
@@ -23,7 +24,7 @@ namespace CoreTail.Shared
         public ICommand FileOpenCommand { get; }
 
         public FileReaderViewModel(
-            IUIPlatformService<TFileInfo> uiPlatformService, 
+            IUIPlatformService<TFileInfo> uiPlatformService,
             ISystemPlatformService<TFileInfo> systemPlatformService)
         {
             _uiPlatformService = Guard.ArgumentNotNull(uiPlatformService, nameof(uiPlatformService));
@@ -41,85 +42,104 @@ namespace CoreTail.Shared
             LogContent.Clear();
 
             var stream = await _systemPlatformService.OpenFileAsStream(fileInfo);
-            
+
             // reading of file is not awaited deliberately (only opening of file is awaited)
-            // TODO: handle exceptions properly
             WatchFileInternal(stream, cts);
         }
 
         public void Dispose() => _cts?.Cancel();
 
-        // TODO: rewrite
         private async Task WatchFileInternal(Stream stream, CancellationTokenSource cts)
         {
+            var eolIndex = 0;
+            var readBuffer = new char[8 * 1024];
+            var lineBuilder = new StringBuilder();
+            var lineBuilderDirty = false;
             var lines = new List<string>();
+            var logContentDirty = false;
 
             using (var fileStream = stream)
             using (var fileReader = new StreamReader(fileStream))
             {
-                var lastLineHadMissingNewLine = false;
-                var lastByteReadBuffer = new byte[1];
-
                 while (!cts.IsCancellationRequested)
                 {
-                    var line = await fileReader.ReadLineAsync();
+                    var readCount = await fileReader.ReadAsync(readBuffer, 0, readBuffer.Length);
 
-                    if (IsEof(line))
+                    if (IsEof(readCount))
                     {
                         if (lines.Count > 0)
                         {
-                            LogContent.AddRange(lines);
-                            lines.Clear();
-                        }
-
-                        // TODO: really not possible without delay?
-                        await Task.Delay(100); // TODO: acceptable delay?
-                    }
-                    else
-                    {
-                        if (!lastLineHadMissingNewLine)
-                        {
-                            // TODO: what if never reaches end of files (producing is faster than consuming?)
-                            lines.Add(line);
-                        }
-                        else if (line != string.Empty)
-                        {
-                            var lastLine = lines.LastOrDefault();
-                            if (lastLine != null)
+                            if (logContentDirty)
                             {
-                                lines.RemoveAt(lines.Count - 1);
-                                lines.Add(lastLine + line);
+                                LogContent[LogContent.Count - 1] = lines[0];
+                                LogContent.AddRange(lines.Skip(1));
+                                logContentDirty = false;
                             }
                             else
                             {
-                                lastLine = LogContent.LastOrDefault();
-                                if (lastLine != null)
+                                LogContent.AddRange(lines);
+                            }
+                            lines.Clear();
+                        }
+                        if (lineBuilder.Length > 0 && lineBuilderDirty)
+                        {
+                            if (logContentDirty)
+                                LogContent[LogContent.Count - 1] = lineBuilder.ToString();
+                            else
+                                LogContent.Add(lineBuilder.ToString());
+                            logContentDirty = true;
+                            lineBuilderDirty = false;
+                        }
+
+                        await Task.Delay(100, cts.Token);
+                    }
+                    else
+                    {
+                        var readLineStart = 0;
+                        for (var i = 0; i < readCount; i++)
+                        {
+                            if (readBuffer[i] == Environment.NewLine[eolIndex])
+                            {
+                                eolIndex++;
+                            }
+
+                            if (eolIndex == Environment.NewLine.Length)
+                            {
+                                string line = null;
+                                if (lineBuilder.Length > 0)
                                 {
-                                    LogContent.RemoveAt(LogContent.Count - 1);
-                                    LogContent.Add(lastLine + line);
+                                    if (i > eolIndex)
+                                    {
+                                        lineBuilder.Append(readBuffer, readLineStart, i - readLineStart - eolIndex + 1);
+                                        lineBuilderDirty = true;
+                                    }
+
+                                    line = lineBuilder.ToString();
+                                    lineBuilder.Clear();
+                                    lineBuilderDirty = false;
                                 }
+                                else
+                                {
+                                    line = new string(readBuffer, readLineStart, i - readLineStart - eolIndex + 1);
+                                }
+
+                                readLineStart = i + 1;
+                                eolIndex = 0;
+                                lines.Add(line);
                             }
                         }
 
-                        if (fileReader.BaseStream.Position > 0 && line != string.Empty)
+                        if (readLineStart + eolIndex < readCount)
                         {
-                            // TODO: measure performance cost
-                            // TODO: optimize by reducing seek (only when EoF?)
-                            fileReader.BaseStream.Seek(-1, SeekOrigin.Current);
-
-                            lastLineHadMissingNewLine =
-                                fileReader.BaseStream.Read(lastByteReadBuffer, 0, 1) == 1 &&
-                                lastByteReadBuffer[0] != '\n' &&
-                                lastByteReadBuffer[0] != '\r';
+                            lineBuilder.Append(readBuffer, readLineStart, readCount - readLineStart - eolIndex);
+                            lineBuilderDirty = true;
                         }
-                        else
-                            lastLineHadMissingNewLine = false;
                     }
                 }
             }
         }
 
-        private static bool IsEof(string line) => line == null;
+        private static bool IsEof(int readCount) => readCount == 0;
 
         private async Task ExecuteFileOpenCommand()
         {
