@@ -35,7 +35,7 @@ namespace CoreTail.Test.ManualTests
         private static string GetExecutablePath(string appName, bool isNetCore = false)
         {
             var extension = isNetCore ? "dll" : "exe";
-            var subfolder = isNetCore ? "netcoreapp2.1/" : string.Empty;
+            var subfolder = isNetCore ? "netcoreapp2.2/" : string.Empty;
 
             return Path.Combine(
                 Environment.CurrentDirectory,
