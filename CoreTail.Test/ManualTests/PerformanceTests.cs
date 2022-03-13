@@ -22,8 +22,6 @@ namespace CoreTail.Test.ManualTests
         private const string WpfAppName = "CoreTail.Wpf";
         private const string AvaloniaNetAppName = "CoreTail.Avalonia.Net";
         private const string AvaloniaNetCoreAppName = "CoreTail.Avalonia.NetCore";
-        private const string UwpAppPackageFamilyAndId = "5a3cae1b-7b4c-4ed2-be89-40911aa7f6ae_n6fhnfby9ccnm!App";
-        private const string UwpAppName = "CoreTail.Uwp";
 
         private string _testFileName;
         private CancellationTokenSource _cts;
@@ -35,7 +33,7 @@ namespace CoreTail.Test.ManualTests
         private static string GetExecutablePath(string appName, bool isNetCore = false)
         {
             var extension = isNetCore ? "dll" : "exe";
-            var subfolder = isNetCore ? "netcoreapp2.2/" : string.Empty;
+            var subfolder = isNetCore ? "netcoreapp3.1/" : string.Empty;
 
             return Path.Combine(
                 Environment.CurrentDirectory,
@@ -111,49 +109,6 @@ namespace CoreTail.Test.ManualTests
             avaloniaNetCoreProcess.WaitForExit();
         }
 
-        public void OpenAppendedFileUwp()
-        {            
-            var uwpProcess = StartUwpApp();
-
-            Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
-                .ContinueWith(t => uwpProcess.Kill()); // not sure how to cleanly close UWP app
-
-            uwpProcess.WaitForExit();
-        }
-
-        private static Process StartUwpApp()
-        {
-            try
-            {
-                // TODO: file must be opened manually
-                Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = "shell:appsFolder\\" + UwpAppPackageFamilyAndId,
-                        UseShellExecute = true
-                    });
-            }
-            catch (Exception ex)
-            {
-                // TODO: command line package creation and deployment would be nicer - I know but it is complicated
-                throw new Exception("Starting UWP app failed - make sure it is installed (or executed from VS at least once)",
-                    ex);
-            }
-
-            Process uwpProcess = null;
-
-            for (var i = 0; i < 10 && uwpProcess == null; i++)
-            {
-                Thread.Sleep(1000);
-                uwpProcess = Process.GetProcessesByName(UwpAppName).FirstOrDefault();
-            }
-
-            if (uwpProcess == null)
-                throw new Exception("Starting UWP app failed");
-
-            return uwpProcess;
-        }
-
         public void OpenAppendedFileAllPlatforms()
         {
             var wpfProcess = Process.Start(GetExecutablePath(WpfAppName), $"\"{_testFileName}\"");
@@ -161,7 +116,6 @@ namespace CoreTail.Test.ManualTests
             var avaloniaNetCoreProcess = Process.Start(
                 @"dotnet",
                 $"exec \"{GetExecutablePath(AvaloniaNetCoreAppName, true)}\" \"{_testFileName}\"");
-            var uwpProcess = StartUwpApp();
 
             Task.Delay(TimeSpan.FromSeconds(TestDurationInSeconds))
                 .ContinueWith(t =>
@@ -169,13 +123,11 @@ namespace CoreTail.Test.ManualTests
                     wpfProcess.CloseMainWindow();
                     avaloniaNetProcess.CloseMainWindow();
                     avaloniaNetCoreProcess.CloseMainWindow();
-                    uwpProcess.Kill();
                 });
 
             wpfProcess.WaitForExit();
             avaloniaNetProcess.WaitForExit();
             avaloniaNetCoreProcess.WaitForExit();
-            uwpProcess.WaitForExit();
         }
     }
 }
