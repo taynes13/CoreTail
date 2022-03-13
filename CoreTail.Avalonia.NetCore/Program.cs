@@ -39,9 +39,7 @@ namespace CoreTail.Avalonia.NetCore
         /// This method is needed for IDE previewer infrastructure
         /// </summary>
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>().UsePlatformDetect()
-            //.UseReactiveUI() TODO: use?
-            ;
+            => AppBuilder.Configure<App>().UsePlatformDetect();
 
         static void ConsoleSilencer()
         {

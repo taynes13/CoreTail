@@ -9,11 +9,15 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Serilog;
 
 namespace CoreTail.Shared
 {
     public class FileReaderViewModel<TFileInfo> : IDisposable where TFileInfo : class, IFileInfo
     {
+        private readonly ILogger _logger = Log.ForContext<FileReaderViewModel<TFileInfo>>();
+        private readonly bool _debugEnabled = Log.IsEnabled(Serilog.Events.LogEventLevel.Debug);
+
         private readonly ISystemPlatformService<TFileInfo> _systemPlatformService;
         private readonly IUIPlatformService<TFileInfo> _uiPlatformService;
 
@@ -57,6 +61,8 @@ namespace CoreTail.Shared
             var lineBuilderDirty = false;
             var lines = new List<string>();
             var logContentDirty = false;
+            var debugLogPrevCount = 0;
+            const int DebugLogFrequency = 1_000;
 
             using (var fileStream = stream)
             using (var fileReader = new StreamReader(fileStream))
@@ -84,11 +90,23 @@ namespace CoreTail.Shared
                         if (lineBuilder.Length > 0 && lineBuilderDirty)
                         {
                             if (logContentDirty)
+                            {
                                 LogContent[LogContent.Count - 1] = lineBuilder.ToString();
+                            }
                             else
+                            {
                                 LogContent.Add(lineBuilder.ToString());
+                            }
                             logContentDirty = true;
                             lineBuilderDirty = false;
+                        }
+                        if (_debugEnabled)
+                        {
+                            if (LogContent.Count / DebugLogFrequency > debugLogPrevCount)
+                            {
+                                _logger.Debug("Logged entries: {LogContentCount}", LogContent.Count);
+                                debugLogPrevCount = LogContent.Count / DebugLogFrequency;
+                            }
                         }
 
                         await Task.Delay(100, cts.Token);

@@ -22,11 +22,17 @@ namespace CoreTail.Avalonia.Net
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>().UsePlatformDetect();
 
-        // TODO: remove when in Avalonia made into a runtime configuration extension
         private static void InitializeLogging()
         {
+            var logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Trace()
+                .CreateLogger();
+
+            Log.Logger = logger;
+
 #if DEBUG
-            SerilogLogger.Initialize(new LoggerConfiguration()
+            SerilogLogger.Initialize(logger ?? new LoggerConfiguration()
                 .MinimumLevel.Warning()
                 .WriteTo.Trace(outputTemplate: "{Area}: {Message}")
                 .CreateLogger());
