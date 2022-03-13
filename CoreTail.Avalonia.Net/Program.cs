@@ -1,5 +1,5 @@
 ﻿using Avalonia;
-using Avalonia.Logging.Serilog;
+using Avalonia.Controls;
 using Serilog;
 using System;
 
@@ -10,19 +10,24 @@ namespace CoreTail.Avalonia.Net
         [STAThread]
         public static void Main(string[] args)
         {
-            InitializeLogging();
-
-            BuildAvaloniaApp().SetupWithoutStarting()
-                .Instance.Run(App.InitializeAndGetMainWindow(args));
+            BuildAvaloniaApp()
+                .SetupWithoutStarting()
+                .InitializeLogging()
+                .Instance
+                .Run(App.InitializeAndGetMainWindow(args));
         }
 
         /// <summary>
         /// This method is needed for IDE previewer infrastructure
         /// </summary>
         public static AppBuilder BuildAvaloniaApp()
-            => AppBuilder.Configure<App>().UsePlatformDetect();
+            => AppBuilder.Configure<App>()
+                .UsePlatformDetect();
+    }
 
-        private static void InitializeLogging()
+    internal static class AppBuilderExentions
+    {
+        public static T InitializeLogging<T>(this T builder) where T : AppBuilderBase<T>, new()
         {
             var logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -31,12 +36,7 @@ namespace CoreTail.Avalonia.Net
 
             Log.Logger = logger;
 
-#if DEBUG
-            SerilogLogger.Initialize(logger ?? new LoggerConfiguration()
-                .MinimumLevel.Warning()
-                .WriteTo.Trace(outputTemplate: "{Area}: {Message}")
-                .CreateLogger());
-#endif
+            return builder.LogToTrace();
         }
     }
 }
