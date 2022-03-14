@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -10,6 +11,13 @@ namespace CoreTail.Avalonia.Platform
 {
     internal class UIPlatformService : IUIPlatformService<FileInfo>
     {
+        private readonly Window _parent;
+
+        public UIPlatformService(Window parent)
+        {
+            _parent = parent ?? throw new ArgumentNullException(nameof(parent));
+        }
+
         public Task<FileInfo[]> ShowOpenFileDialogAsync(OpenFileDialogSettings settings, object ownerWindow = null)
         {
             return new OpenFileDialog
@@ -20,7 +28,7 @@ namespace CoreTail.Avalonia.Platform
                     InitialFileName = settings.InitialFileName,
                     Title = settings.Title
                 }
-                .ShowAsync(ownerWindow as Window)
+                .ShowAsync(_parent)
                 .ContinueWith(t => 
                     t.Result?.Select(fileName => new FileInfo(fileName)).ToArray());
         }

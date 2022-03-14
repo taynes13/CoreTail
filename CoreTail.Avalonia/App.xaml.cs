@@ -28,9 +28,10 @@ namespace CoreTail.Avalonia
 
         public static Window InitializeAndGetMainWindow(string[] args)
         {
-            var viewModel = CreateViewModel();
+            var mainWindow = new MainWindow();
+            var viewModel = CreateViewModel(mainWindow);
 
-            var mainWindow = new MainWindow { DataContext = viewModel };
+            mainWindow.DataContext = viewModel;
             mainWindow.Closed += (o, args2) => viewModel.Dispose(); // invoked, but message loop is not drained before process end, probably Avalonia bug!
 
             var fileInfo = args.Length == 0 ? null : new FileInfo(args[0]);
@@ -41,11 +42,11 @@ namespace CoreTail.Avalonia
             return mainWindow;
         }
 
-        private static FileReaderViewModel<FileInfo> CreateViewModel()
+        private static FileReaderViewModel<FileInfo> CreateViewModel(Window parent)
         {
             return new ViewModelFactory<FileInfo>(
                     new Dispatcher(),
-                    new UIPlatformService(),
+                    new UIPlatformService(parent),
                     new SystemPlatformService())
                 .CreateMainWindowViewModel();
         }
