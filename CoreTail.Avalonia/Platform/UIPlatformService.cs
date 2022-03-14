@@ -21,16 +21,16 @@ namespace CoreTail.Avalonia.Platform
         public Task<FileInfo[]> ShowOpenFileDialogAsync(OpenFileDialogSettings settings, object ownerWindow = null)
         {
             return new OpenFileDialog
-                {
-                    AllowMultiple = settings.AllowMultiple,
-                    Filters = ToAvaloniaFilters(settings.Filters),
-                    InitialDirectory = settings.InitialDirectory,
-                    InitialFileName = settings.InitialFileName,
-                    Title = settings.Title
-                }
-                .ShowAsync(_parent)
-                .ContinueWith(t => 
-                    t.Result?.Select(fileName => new FileInfo(fileName)).ToArray());
+            {
+                AllowMultiple = settings.AllowMultiple,
+                Filters = ToAvaloniaFilters(settings.Filters),
+                Directory = settings.InitialDirectory,
+                InitialFileName = settings.InitialFileName,
+                Title = settings.Title
+            }
+            .ShowAsync(_parent)
+            .ContinueWith(t => 
+                t.Result?.Select(fileName => new FileInfo(fileName)).ToArray());
         }
 
         private static List<global::Avalonia.Controls.FileDialogFilter> ToAvaloniaFilters(IReadOnlyCollection<FileDialogFilter> filters)
