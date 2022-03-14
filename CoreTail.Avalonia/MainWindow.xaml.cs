@@ -53,7 +53,12 @@ namespace CoreTail.Avalonia
 
         private void ScrollToBottom()
         {
-            if (_listBox?.Scroll == null) return;
+            if (_listBox?.Scroll == null)
+                return;
+
+            if (ViewModel.LogContent.Count == 0)
+                return;
+
             _listBox.Scroll.Offset = new Vector(_listBox.Scroll.Offset.X, _listBox.Scroll.Extent.Height);
         }
 
